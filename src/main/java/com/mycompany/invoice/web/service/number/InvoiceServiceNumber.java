@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class InvoiceServiceNumber implements IInvoiceService {
@@ -14,7 +15,6 @@ public class InvoiceServiceNumber implements IInvoiceService {
     /**
      * ATTRIBUTS
      */
-    private static long lastNumber=0L;
     private IInvoiceRepository invoiceRepository;
 
     /**
@@ -30,34 +30,30 @@ public class InvoiceServiceNumber implements IInvoiceService {
      */
     public Invoice create(Invoice invoice){
         System.out.println(" ----- InvoiceServiceNumber/create ----- ");
+        System.out.println(" ----- invoice.getNumber : " + invoice.getNumber());
+        System.out.println(" ----- invoice.getNumber : " + invoice.getCustomerName());
+        System.out.println(" ----- invoice.getOrderNumber : " + invoice.getOrderNumber());
 
-        invoice.setNumber(String.valueOf(++this.lastNumber));
-        return invoiceRepository.create(invoice);
+        return invoiceRepository.save(invoice);
     }
 
     @Override
-    public List<Invoice> getListInvoice(){
+    public Iterable<Invoice> getListInvoice(){
         System.out.println(" ----- InvoiceServiceNumber/getListInvoice ----- ");
-        return invoiceRepository.getListInvoice();
+        return invoiceRepository.findAll();
     }
 
     @Override
     public Invoice getInvoiceByNumber(String number){
         System.out.println(" ----- InvoiceServiceNumber/getInvoiceByNumber ----- ");
-        return invoiceRepository.getInvoiceByNumber(number);
+        return invoiceRepository.findById(number).orElseThrow(
+                () -> new NoSuchElementException("Invoice with number " + number + " not found")
+        );
     }
 
     /**
      * GETTERS/SETTERS
      */
-    public static long getLastNumber() {
-        return lastNumber;
-    }
-
-    public static void setLastNumber(long lastNumber) {
-        InvoiceServiceNumber.lastNumber = lastNumber;
-    }
-
     public IInvoiceRepository getInvoiceRepository() {
         return invoiceRepository;
     }

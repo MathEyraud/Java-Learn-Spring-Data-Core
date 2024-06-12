@@ -6,6 +6,7 @@ import com.mycompany.invoice.web.service.IInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 //@Service
 public class InvoiceServicePrefixINV implements IInvoiceService {
@@ -30,16 +31,20 @@ public class InvoiceServicePrefixINV implements IInvoiceService {
     @Override
     public Invoice create(Invoice invoice){
         invoice.setNumber(String.valueOf("INV_" + ++this.lastNumber));
-        return invoiceRepository.create(invoice);
+        return invoiceRepository.save(invoice);
     }
 
     @Override
-    public List<Invoice> getListInvoice(){
-        return invoiceRepository.getListInvoice();
+    public Iterable<Invoice> getListInvoice(){
+        return invoiceRepository.findAll();
     }
 
     @Override
-    public Invoice getInvoiceByNumber(String number){return invoiceRepository.getInvoiceByNumber(number);}
+    public Invoice getInvoiceByNumber(String number){
+        return invoiceRepository.findById(number).orElseThrow(
+                () -> new NoSuchElementException("Invoice with number " + number + " not found")
+        );
+    }
 
     /**
      * GETTERS/SETTERS

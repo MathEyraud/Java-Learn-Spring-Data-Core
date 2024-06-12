@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 //@Repository
 public class InvoiceRepositoryCache implements IInvoiceRepository {
@@ -44,45 +45,66 @@ public class InvoiceRepositoryCache implements IInvoiceRepository {
         }
     }
 
-    public Invoice create(Invoice invoice){
+    @Override
+    public Invoice save(Invoice invoice){
         this.invoices.add(invoice);
         System.out.println("Cache : Invoice added with number " + invoice.getNumber() + " for " + invoice.getCustomerName() + ".");
         return invoice;
     }
 
-    public List<Invoice> getListInvoice(){
-
-        // On crée des données fictives, car on a pas encore de DB
-        Invoice invoice1 = new Invoice();
-        invoice1.setNumber("1");
-        invoice1.setCustomerName("Customer1");
-
-        Invoice invoice2 = new Invoice();
-        invoice2.setNumber("2");
-        invoice2.setCustomerName("Customer2");
-        invoice2.setOrderNumber("ON_02");
-
-        // On les ajoutes à une liste qu'on va renvoyer
-        List<Invoice> listInvoice = new ArrayList<>();
-        listInvoice.add(invoice1);
-        listInvoice.add(invoice2);
-
-        // On retourne les données
-        return listInvoice;
+    @Override
+    public Iterable<Invoice> findAll(){
+        throw new UnsupportedOperationException();
     }
 
-    public Invoice getInvoiceByNumber(String number){
+    @Override
+    public Iterable<Invoice> findAllById(Iterable<String> strings) {
+        throw new UnsupportedOperationException();
+    }
 
-        System.out.println(" ----- InvoiceRepositoryCache/getInvoiceByNumber ----- ");
+    @Override
+    public long count() {
+        throw new UnsupportedOperationException();
+    }
 
-        // On crée des données fictives, car on a pas encore de DB
-        Invoice invoice = new Invoice();
-        invoice.setNumber(number);
-        invoice.setCustomerName("Customer_1");
-        invoice.setOrderNumber("OrderNumber_1");
+    @Override
+    public void deleteById(String s) {
+        throw new UnsupportedOperationException();
+    }
 
-        // On retourne les données
-        return invoice;
+    @Override
+    public void delete(Invoice entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteAllById(Iterable<? extends String> strings) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends Invoice> entities) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteAll() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public <S extends Invoice> Iterable<S> saveAll(Iterable<S> entities) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Optional findById(String number){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean existsById(String s) {
+        throw new UnsupportedOperationException();
     }
 
     /**
