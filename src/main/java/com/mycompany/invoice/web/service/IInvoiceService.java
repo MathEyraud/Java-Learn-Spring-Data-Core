@@ -9,7 +9,7 @@ public interface IInvoiceService{
 
     Invoice create(Invoice invoice);
     void setInvoiceRepository(IInvoiceRepository invoiceRepository);
-    List<Invoice> getListInvoice();
+    Iterable<Invoice> getListInvoice();
     Invoice getInvoiceByNumber(String number);
 
 }
