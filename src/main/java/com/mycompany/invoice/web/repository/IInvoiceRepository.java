@@ -9,7 +9,7 @@ public interface IInvoiceRepository extends CrudRepository<Invoice, String> {
 
     /**
      * AVEC L'UTILISATION DE SPRING DATA JDBC
-     * IL N'EST PLUS NECESSAIRE D'AVCOIR UN REPOSITORY
+     * IL N'EST PLUS NECESSAIRE D'AVOIR UN REPOSITORY
      * C'EST L'INTERFACE QUI VA ETENDRE UN CRUD REPOSITORY
      */
     /*
