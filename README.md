@@ -23,7 +23,7 @@ This project consists of two distinct data models:
   - More boilerplate code.
   - Increased risk of SQL injection if queries are not handled properly.
 
-## Spring Data JDBC
+### Spring Data JDBC
 - Description: Spring Data JDBC simplifies the development process by providing a more object-oriented approach to database interactions, while still maintaining control over the SQL.
 - Pros:
   - Easier to use compared to Spring JDBC.
@@ -33,7 +33,7 @@ This project consists of two distinct data models:
   - Less flexible compared to Spring JDBC.
   - Limited support for complex relationships and custom queries.
 
-## Spring Data JPA
+### Spring Data JPA
 - Description: Spring Data JPA uses the Java Persistence API (JPA) to interact with the database, offering a higher level of abstraction and more powerful ORM capabilities.
 - Pros:
   - Powerful ORM capabilities.
