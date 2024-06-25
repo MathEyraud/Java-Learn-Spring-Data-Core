@@ -1,33 +1,22 @@
-package com.mycompany.invoice.web.entity;
+package com.mycompany.invoise.core.entity;
 
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "invoice")
-@NamedEntityGraph(
-        name = "invoice.customer",
-        attributeNodes = @NamedAttributeNode("customer")
-)
 public class Invoice {
 
-    /**
-     * ATTRIBUTS
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="INVOICE_NUMBER", columnDefinition = "BIGINT")
+    @Column(name="INVOICE_NUMBER",columnDefinition="BIGINT")
     private String number;
-
-    @Column(name="ORDER_NUMBER",length = 13)
+    @Column(length = 13)
     private String orderNumber;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CUSTOMER", nullable = false)
     private Customer customer;
-
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
@@ -36,9 +25,6 @@ public class Invoice {
     @JoinColumn(name = "INVOICE_NUMBER", nullable = false)
     private List<InvoiceLine> lines=new ArrayList<>();
 
-    /**
-     * CONSTRUCTEURS
-     */
     public Invoice(String number, String orderNumber, Customer customer) {
         this.number = number;
         this.orderNumber = orderNumber;
@@ -57,9 +43,6 @@ public class Invoice {
     public Invoice() {
     }
 
-    /**
-     * GETTERS/SETTERS
-     */
     public String getNumber() {
         return number;
     }

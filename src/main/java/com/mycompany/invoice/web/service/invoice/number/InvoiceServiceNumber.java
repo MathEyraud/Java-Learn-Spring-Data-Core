@@ -1,83 +1,81 @@
-package com.mycompany.invoice.web.service.prefix;
+package com.mycompany.invoice.web.service.invoice.number;
 
 import com.mycompany.invoice.web.entity.Invoice;
+import com.mycompany.invoice.web.repository.ICustomerRepository;
 import com.mycompany.invoice.web.repository.IInvoiceRepository;
 import com.mycompany.invoice.web.service.IInvoiceService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.NoSuchElementException;
 
-//@Service
-public class InvoiceServicePrefix implements IInvoiceService {
+@Service
+public class InvoiceServiceNumber implements IInvoiceService {
 
     /**
      * ATTRIBUTS
      */
-    //@Value("${invoice.lastNumber}")
-    private long lastNumber;
-
-    //@Value("${invoice.prefix}")
-    private String prefix;
-
     private IInvoiceRepository invoiceRepository;
+    private ICustomerRepository customerRepository;
 
     /**
      * CONSTRUCTEUR
      */
-    //@Autowired
-    public InvoiceServicePrefix(IInvoiceRepository invoiceRepository){
+    @Autowired
+    public InvoiceServiceNumber(IInvoiceRepository invoiceRepository, ICustomerRepository customerRepository){
+
         this.invoiceRepository = invoiceRepository;
+        this.customerRepository = customerRepository;
+
     }
 
     /**
      * METHODS
      */
-    @Override
+    @Transactional
     public Invoice create(Invoice invoice){
-        invoice.setNumber(String.valueOf(prefix + ++this.lastNumber));
+
+        System.out.println(" ----- InvoiceServiceNumber/create ----- ");
+
+        // Ajout du customer s'il existe avant d'ajouter la facture
+        customerRepository.save(invoice.getCustomer());
+
+        // On enregistre la facture
         return invoiceRepository.save(invoice);
     }
 
     @Override
     public Iterable<Invoice> getListInvoice(){
+        System.out.println(" ----- InvoiceServiceNumber/getListInvoice ----- ");
         return invoiceRepository.findAll();
     }
 
     @Override
     public Invoice getInvoiceByNumber(String number){
+        System.out.println(" ----- InvoiceServiceNumber/getInvoiceByNumber ----- ");
         return invoiceRepository.findById(number).orElseThrow(
                 () -> new NoSuchElementException("Invoice with number " + number + " not found")
         );
     }
 
-
     /**
      * GETTERS/SETTERS
      */
-    public long getLastNumber() {
-        return this.lastNumber;
-    }
-
-    public void setLastNumber(long lastNumber) {
-        this.lastNumber = lastNumber;
-    }
-
     public IInvoiceRepository getInvoiceRepository() {
-        return this.invoiceRepository;
+        return invoiceRepository;
     }
 
     public void setInvoiceRepository(IInvoiceRepository invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
     }
 
-    public String getPrefix() {
-        return this.prefix;
+    public ICustomerRepository getCustomerRepository() {
+        return customerRepository;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+    public void setCustomerRepository(ICustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 }

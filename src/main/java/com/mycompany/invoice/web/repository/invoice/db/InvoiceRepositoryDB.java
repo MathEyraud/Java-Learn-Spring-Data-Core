@@ -1,4 +1,4 @@
-package com.mycompany.invoice.web.repository.db;
+package com.mycompany.invoice.web.repository.invoice.db;
 
 /**
  * AVEC L'UTILISATION DE SPRING DATA JDBC

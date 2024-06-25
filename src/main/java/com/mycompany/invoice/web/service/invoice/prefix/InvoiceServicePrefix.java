@@ -1,27 +1,34 @@
-package com.mycompany.invoice.web.service.prefixinv;
+package com.mycompany.invoice.web.service.invoice.prefix;
 
 import com.mycompany.invoice.web.entity.Invoice;
 import com.mycompany.invoice.web.repository.IInvoiceRepository;
 import com.mycompany.invoice.web.service.IInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 //@Service
-public class InvoiceServicePrefixINV implements IInvoiceService {
+public class InvoiceServicePrefix implements IInvoiceService {
 
     /**
      * ATTRIBUTS
      */
-    private static long lastNumber=0L;
+    //@Value("${invoice.lastNumber}")
+    private long lastNumber;
+
+    //@Value("${invoice.prefix}")
+    private String prefix;
+
     private IInvoiceRepository invoiceRepository;
 
     /**
      * CONSTRUCTEUR
      */
-    @Autowired
-    public InvoiceServicePrefixINV(IInvoiceRepository invoiceRepository){
+    //@Autowired
+    public InvoiceServicePrefix(IInvoiceRepository invoiceRepository){
         this.invoiceRepository = invoiceRepository;
     }
 
@@ -30,7 +37,7 @@ public class InvoiceServicePrefixINV implements IInvoiceService {
      */
     @Override
     public Invoice create(Invoice invoice){
-        invoice.setNumber(String.valueOf("INV_" + ++this.lastNumber));
+        invoice.setNumber(String.valueOf(prefix + ++this.lastNumber));
         return invoiceRepository.save(invoice);
     }
 
@@ -46,22 +53,31 @@ public class InvoiceServicePrefixINV implements IInvoiceService {
         );
     }
 
+
     /**
      * GETTERS/SETTERS
      */
-    public static long getLastNumber() {
-        return lastNumber;
+    public long getLastNumber() {
+        return this.lastNumber;
     }
 
-    public static void setLastNumber(long lastNumber) {
-        InvoiceServicePrefixINV.lastNumber = lastNumber;
+    public void setLastNumber(long lastNumber) {
+        this.lastNumber = lastNumber;
     }
 
     public IInvoiceRepository getInvoiceRepository() {
-        return invoiceRepository;
+        return this.invoiceRepository;
     }
 
     public void setInvoiceRepository(IInvoiceRepository invoiceRepository) {
         this.invoiceRepository = invoiceRepository;
+    }
+
+    public String getPrefix() {
+        return this.prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 }
