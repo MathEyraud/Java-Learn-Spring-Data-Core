@@ -1,14 +1,9 @@
-package com.mycompany.invoice.web.repository.cache;
+package com.mycompany.invoice.web.repository.invoice.cache;
 
 import com.mycompany.invoice.web.entity.Invoice;
 import com.mycompany.invoice.web.repository.IInvoiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,28 +22,10 @@ public class InvoiceRepositoryCache implements IInvoiceRepository {
     /**
      * METHODS
      */
-    private static final class InvoiceRowMapper implements RowMapper<Invoice> {
-
-        // Redéfinir une méthode de l'interface RowMapper.
-        @Override
-        public Invoice mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-            // Création de la nouvelle facture
-            Invoice invoice = new Invoice();
-
-            // Ajout des attributs
-            invoice.setNumber(String.valueOf(rs.getLong("INVOICE_NUMBER")));
-            invoice.setCustomerName(rs.getString("CUSTOMER_NAME"));
-            invoice.setOrderNumber(rs.getString("ORDER_NUMBER"));
-
-            return invoice;
-        }
-    }
-
     @Override
     public Invoice save(Invoice invoice){
         this.invoices.add(invoice);
-        System.out.println("Cache : Invoice added with number " + invoice.getNumber() + " for " + invoice.getCustomerName() + ".");
+        System.out.println("Cache : Invoice added with number " + invoice.getNumber() + " for " + invoice.getCustomer().getName() + ".");
         return invoice;
     }
 

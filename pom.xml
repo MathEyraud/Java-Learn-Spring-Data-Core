@@ -47,12 +47,9 @@
     </dependency>
 
     <dependency>
-
-      <!-- Necessaire Pour : Spring Data JPA -->
       <groupId>jakarta.persistence</groupId>
       <artifactId>jakarta.persistence-api</artifactId>
       <version>3.1.0</version>
-
     </dependency>
 
     <dependency>
