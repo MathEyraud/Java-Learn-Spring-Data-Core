@@ -1,5 +1,6 @@
-package com.mycompany.invoice.web.entity;
+package com.mycompany.invoice.core.entity.invoice;
 
+import com.mycompany.invoice.core.entity.product.Product;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,9 +16,15 @@ public class InvoiceLine {
     @Column(nullable = false)
     private Short quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_PRODUCT")
+    /*  Lors du passage aux microservices
+        on passe par l'id est non pas l'entité
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "ID_PRODUCT")
+    */
+    @Transient
     private Product product;
+
+    private Long idProduct;
 
     /**
      * CONSTRUCTEUR
@@ -55,5 +62,13 @@ public class InvoiceLine {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Long getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(Long idProduct) {
+        this.idProduct = idProduct;
     }
 }

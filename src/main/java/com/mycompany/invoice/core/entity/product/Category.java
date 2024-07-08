@@ -1,9 +1,9 @@
-package com.mycompany.invoice.web.entity;
+package com.mycompany.invoice.core.entity.product;
 
 import jakarta.persistence.*;
 
 @Entity
-public class Customer {
+public class Category {
 
     /**
      * ATTRIBUTS
@@ -15,20 +15,14 @@ public class Customer {
     @Column(nullable = false,length = 50)
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true,optional = false)
-    @JoinColumn(name="ID_ADDRESS")
-    private Address address;
-
-
-
     /**
      * CONSTRUCTEUR
      */
-    public Customer(String name) {
+    public Category(String name) {
         this.name = name;
     }
 
-    public Customer() {
+    public Category() {
     }
 
     /**
@@ -48,13 +42,5 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 }

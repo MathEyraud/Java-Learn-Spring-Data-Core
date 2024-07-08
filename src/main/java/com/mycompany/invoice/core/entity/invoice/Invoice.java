@@ -1,16 +1,19 @@
-package com.mycompany.invoice.web.entity;
+package com.mycompany.invoice.core.entity.invoice;
 
+import com.mycompany.invoice.core.entity.customer.Customer;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "invoice")
-@NamedEntityGraph(
+/*  Lors du passage aux microservices
+    on passe par l'id est non pas l'entité
+    @NamedEntityGraph(
         name = "invoice.customer",
         attributeNodes = @NamedAttributeNode("customer")
-)
+    )
+*/
 public class Invoice {
 
     /**
@@ -24,9 +27,15 @@ public class Invoice {
     @Column(name="ORDER_NUMBER",length = 13)
     private String orderNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_CUSTOMER", nullable = false)
+    /*  Lors du passage aux microservices
+        on passe par l'id est non pas l'entité
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "ID_CUSTOMER", nullable = false)
+    */
+    @Transient
     private Customer customer;
+
+    private Long idCustomer;
 
     @OneToMany(
             fetch = FetchType.LAZY,
@@ -94,5 +103,17 @@ public class Invoice {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Long getIdCustomer() {
+        return idCustomer;
+    }
+
+    public void setIdCustomer(Long idCustomer) {
+        this.idCustomer = idCustomer;
+    }
+
+    public void setLines(List<InvoiceLine> lines) {
+        this.lines = lines;
     }
 }

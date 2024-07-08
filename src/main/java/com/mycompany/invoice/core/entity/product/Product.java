@@ -1,4 +1,4 @@
-package com.mycompany.invoice.web.entity;
+package com.mycompany.invoice.core.entity.product;
 
 import jakarta.persistence.*;
 
